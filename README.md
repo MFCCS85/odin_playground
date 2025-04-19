@@ -1,2 +1,3 @@
-# odin_playground
-My Odin playground
+# Odin Playground
+
+Playing around with [Odin] (odin-lang.org/docs/overview)
