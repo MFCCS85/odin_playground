@@ -2,16 +2,20 @@ package main
 
 import "core:fmt"
 import "core:os"
+import "vendor:raylib"
 
 main :: proc() {
-    for i:= 1 ; i <101 ; i += 1{
-        Fizzbuzz(i)
+    raylib.InitWindow(800, 600, "ODIN RAYLIB ")
+    defer raylib.CloseWindow()
+
+    raylib.SetTargetFPS(60)
+    
+    for !raylib.WindowShouldClose(){
+        raylib.BeginDrawing()
+        defer raylib.EndDrawing()
+
+        raylib.ClearBackground(raylib.RAYWHITE)
+        raylib.DrawText("HIIIIIIIIIii", 190,200,50, raylib.DARKGRAY)
     }
 }
 
-Fizzbuzz :: proc(n: int){
-    if n % 15 == 0 do fmt.println("FizzBuzz")
-    else if n % 5 == 0 do fmt.println("Buzz")
-    else if n % 3 == 0 do fmt.println("Fizz")
-    else do fmt.println(n) 
-}
