@@ -6,7 +6,7 @@ import rl "vendor:raylib"
 
 main :: proc() {
     // Setup
-    player := Player{rl.Vector2{400,300}}
+    player := Player{rl.Vector2{400,300}, rl.Vector2{0, 10}}
 
     rl.InitWindow(800, 600, "ODIN RAYLIB ")
     defer rl.CloseWindow()
@@ -16,10 +16,22 @@ main :: proc() {
     // Main Game Loop
     for !rl.WindowShouldClose(){
         // Update
-        if (rl.IsKeyDown(rl.KeyboardKey.RIGHT)) do player.position.x += 2.0
-        if (rl.IsKeyDown(rl.KeyboardKey.LEFT)) do player.position.x -= 2.0
-        if (rl.IsKeyDown(rl.KeyboardKey.UP)) do player.position.y -= 2.0
-        if (rl.IsKeyDown(rl.KeyboardKey.DOWN)) do player.position.y += 2.0
+        dt := rl.GetFrameTime()
+        player.position.y += player.velocity.y * dt
+        player.velocity.y += 600 * dt
+
+        if player.position.y >= 570 {
+            player.position.y = 570
+            player.velocity.y = 600 * dt
+        }
+
+        if player.position.y <= 30 {
+            player.position.y = 30
+        }
+
+        if rl.IsKeyPressed(rl.KeyboardKey.SPACE){
+            player.velocity.y = -600
+        }
 
         // Draw
         rl.BeginDrawing()
@@ -35,5 +47,6 @@ drawPlayer :: proc(player : Player){
 }
 
 Player :: struct{
-    position: rl.Vector2
+    position: rl.Vector2,
+    velocity: rl.Vector2
 }
